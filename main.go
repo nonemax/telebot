@@ -81,8 +81,9 @@ func main() {
 			}
 			continue
 		}
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, `это что???`)
-		boss.Bot.Send(msg)
+		//msg := tgbotapi.NewMessage(update.Message.Chat.ID, `это что???`)
+		s := tgbotapi.NewChatAction(update.Message.Chat.ID, "уверен?")
+		boss.Bot.Send(s)
 	}
 }
 
