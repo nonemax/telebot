@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"reflect"
 	"time"
@@ -9,8 +11,18 @@ import (
 	"github.com/Syfaro/telegram-bot-api"
 )
 
+type Boss struct {
+	Bot   *tgbotapi.BotAPI
+	Vacab Vacabruary
+}
+
+type Vacabruary struct {
+	Qustions []string
+	Unswers  []string
+}
+
 func main() {
-	bot, err := newBot(os.Getenv("TOKEN"))
+	boss, err := newBoss(os.Getenv("TOKEN"))
 	if err != nil {
 		log.Println(err)
 		os.Exit(1)
@@ -20,7 +32,7 @@ func main() {
 	u.Timeout = 60
 	log.Println("I`m ready")
 	//Получаем обновления от бота
-	updates := bot.GetUpdatesChan(u)
+	updates := boss.Bot.GetUpdatesChan(u)
 
 	for update := range updates {
 		if update.Message == nil {
@@ -31,24 +43,51 @@ func main() {
 			case "/say_hello":
 				//Send message
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
-				bot.Send(msg)
+				boss.Bot.Send(msg)
 			default:
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Что значит "`+update.Message.Text+`"?!`)
-				bot.Send(msg)
+				q := rand.Intn(len(boss.Vacab.Qustions))
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf(boss.Vacab.Qustions[q], update.Message.Text))
+				boss.Bot.Send(msg)
 				go func() {
+					q = rand.Intn(len(boss.Vacab.Unswers))
 					time.Sleep(5 * time.Second)
-					msg = tgbotapi.NewMessage(update.Message.Chat.ID, `Иди работай!`)
-					bot.Send(msg)
+					msg = tgbotapi.NewMessage(update.Message.Chat.ID, boss.Vacab.Unswers[q])
+					boss.Bot.Send(msg)
 				}()
 			}
+			continue
 		}
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, `это что???`)
+		boss.Bot.Send(msg)
 	}
 }
 
-func newBot(token string) (*tgbotapi.BotAPI, error) {
+func newBoss(token string) (Boss, error) {
+	var boss Boss
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
-		return bot, err
+		return boss, err
 	}
-	return bot, nil
+	boss.Bot = bot
+	boss.Vacab.Qustions = getQustions()
+	boss.Vacab.Unswers = getUnswers()
+	return boss, nil
+}
+
+func getQustions() []string {
+	return []string{
+		0: `Это что???`,
+		1: `И?`,
+		2: `Меня не интересует это твое %s, где результат?`,
+		3: `Что значит "%s?!"`,
+	}
+}
+
+func getUnswers() []string {
+	return []string{
+		0: `Иди работай!`,
+		1: `Мы это уже обсуждали!`,
+		2: `Не хочу ничего слышать!`,
+		3: `Ты скоро доиграешься`,
+	}
 }
