@@ -45,11 +45,11 @@ func main() {
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
 				boss.Bot.Send(msg)
 			default:
-				q := rand.Intn(len(boss.Vacab.Qustions) + 1)
+				q := rand.Intn(len(boss.Vacab.Qustions))
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf(boss.Vacab.Qustions[q], update.Message.Text))
 				boss.Bot.Send(msg)
 				go func() {
-					q = rand.Intn(len(boss.Vacab.Unswers) + 1)
+					q = rand.Intn(len(boss.Vacab.Unswers))
 					time.Sleep(time.Duration(q+2) * time.Second)
 					msg = tgbotapi.NewMessage(update.Message.Chat.ID, boss.Vacab.Unswers[q])
 					boss.Bot.Send(msg)
