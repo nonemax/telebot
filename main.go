@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"os"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/Syfaro/telegram-bot-api"
@@ -45,6 +46,11 @@ func main() {
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
 				boss.Bot.Send(msg)
 			default:
+				if strings.Contains(update.Message.Text, `но `) || strings.Contains(update.Message.Text, `Но `) {
+					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Постоянно эти твои "но"!`)
+					boss.Bot.Send(msg)
+					continue
+				}
 				q := rand.Intn(len(boss.Vacab.Qustions))
 				time.Sleep(time.Duration(rand.Intn(3)+3) * time.Second)
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf(boss.Vacab.Qustions[q], update.Message.Text))
