@@ -32,7 +32,7 @@ func main() {
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
 				bot.Send(msg)
 			default:
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Use the words for search.")
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello!")
 				bot.Send(msg)
 			}
 		}
