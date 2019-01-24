@@ -50,7 +50,7 @@ func main() {
 				boss.Bot.Send(msg)
 				go func() {
 					q = rand.Intn(len(boss.Vacab.Unswers) + 1)
-					time.Sleep(5 * time.Second)
+					time.Sleep(time.Duration(q+2) * time.Second)
 					msg = tgbotapi.NewMessage(update.Message.Chat.ID, boss.Vacab.Unswers[q])
 					boss.Bot.Send(msg)
 				}()
@@ -76,7 +76,7 @@ func newBoss(token string) (Boss, error) {
 
 func getQustions() []string {
 	return []string{
-		0: `т.е. твой результат это %s?!`,
+		0: `т.е. твой результат это "%s"?!`,
 		1: `"%s", серьезно?`,
 		2: `Меня не интересует это твое "%s", где результат?`,
 		3: `Что значит "%s"?!`,
