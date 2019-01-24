@@ -47,6 +47,7 @@ func main() {
 				boss.Bot.Send(msg)
 			default:
 				if strings.Contains(update.Message.Text, `но `) || strings.Contains(update.Message.Text, `Но `) {
+					time.Sleep(time.Duration(rand.Intn(3)+3) * time.Second)
 					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Постоянно эти твои "но"!`)
 					boss.Bot.Send(msg)
 					continue
