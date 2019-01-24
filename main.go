@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"reflect"
+	"time"
 
 	"github.com/Syfaro/telegram-bot-api"
 )
@@ -34,6 +35,11 @@ func main() {
 			default:
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Что значит "`+update.Message.Text+`"?!`)
 				bot.Send(msg)
+				go func() {
+					time.Sleep(5 * time.Second)
+					msg = tgbotapi.NewMessage(update.Message.Chat.ID, `Иди работай!`)
+					bot.Send(msg)
+				}()
 			}
 		}
 	}
