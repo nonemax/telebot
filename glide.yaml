@@ -1,0 +1,4 @@
+package: github.com/nonemax/telebot
+import:
+- package: github.com/Syfaro/telegram-bot-api
+  version: v5.0.0-rc1
