@@ -39,10 +39,9 @@ func main() {
 		if update.Message == nil {
 			continue
 		}
-		if update.Message.Chat.IsGroup() {
-			if rand.Intn(100) < 70 {
-				continue
-			}
+		if update.Message.Chat.IsGroup() && rand.Intn(100) < 70 {
+			log.Println("ups")
+			continue
 		}
 		if reflect.TypeOf(update.Message.Text).Kind() == reflect.String && update.Message.Text != "" {
 			switch update.Message.Text {
