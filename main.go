@@ -39,8 +39,10 @@ func main() {
 		if update.Message == nil {
 			continue
 		}
-		if rand.Intn(100) < 70 {
-			continue
+		if update.Message.Chat.IsGroup() {
+			if rand.Intn(100) < 70 {
+				continue
+			}
 		}
 		if reflect.TypeOf(update.Message.Text).Kind() == reflect.String && update.Message.Text != "" {
 			switch update.Message.Text {
@@ -49,6 +51,7 @@ func main() {
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
 				boss.Bot.Send(msg)
 			default:
+
 				if strings.Contains(update.Message.Text, `но `) || strings.Contains(update.Message.Text, `Но `) {
 					time.Sleep(time.Duration(rand.Intn(10)+3) * time.Second)
 					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Постоянно эти твои "но"!`)
