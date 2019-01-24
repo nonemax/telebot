@@ -39,6 +39,9 @@ func main() {
 		if update.Message == nil {
 			continue
 		}
+		if rand.Intn(100) < 70 {
+			continue
+		}
 		if reflect.TypeOf(update.Message.Text).Kind() == reflect.String && update.Message.Text != "" {
 			switch update.Message.Text {
 			case "/say_hello":
@@ -47,8 +50,20 @@ func main() {
 				boss.Bot.Send(msg)
 			default:
 				if strings.Contains(update.Message.Text, `но `) || strings.Contains(update.Message.Text, `Но `) {
-					time.Sleep(time.Duration(rand.Intn(3)+3) * time.Second)
+					time.Sleep(time.Duration(rand.Intn(10)+3) * time.Second)
 					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `Постоянно эти твои "но"!`)
+					boss.Bot.Send(msg)
+					continue
+				}
+				if strings.Contains(update.Message.Text, `хуй`) || strings.Contains(update.Message.Text, `Хуй`) {
+					time.Sleep(time.Duration(rand.Intn(10)+3) * time.Second)
+					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `"`+update.Message.Text+`"? Охренели там?`)
+					boss.Bot.Send(msg)
+					continue
+				}
+				if strings.Contains(update.Message.Text, `бля`) || strings.Contains(update.Message.Text, `Бля`) {
+					time.Sleep(time.Duration(rand.Intn(10)+3) * time.Second)
+					msg := tgbotapi.NewMessage(update.Message.Chat.ID, `"`+update.Message.Text+`"? Не доросли еще!`)
 					boss.Bot.Send(msg)
 					continue
 				}
