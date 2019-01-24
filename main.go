@@ -46,12 +46,12 @@ func main() {
 				boss.Bot.Send(msg)
 			default:
 				q := rand.Intn(len(boss.Vacab.Qustions))
-				time.Sleep(time.Duration(rand.Intn(3)) * time.Second)
+				time.Sleep(time.Duration(rand.Intn(3)+3) * time.Second)
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf(boss.Vacab.Qustions[q], update.Message.Text))
 				boss.Bot.Send(msg)
 				go func() {
 					q = rand.Intn(len(boss.Vacab.Unswers))
-					time.Sleep(time.Duration(rand.Intn(3)) * time.Second)
+					time.Sleep(time.Duration(rand.Intn(3)+1) * time.Second)
 					msg = tgbotapi.NewMessage(update.Message.Chat.ID, boss.Vacab.Unswers[q])
 					boss.Bot.Send(msg)
 				}()
