@@ -36,6 +36,7 @@ func main() {
 	updates := boss.Bot.GetUpdatesChan(u)
 
 	for update := range updates {
+		log.Println(update.Message.Text)
 		if update.Message == nil {
 			continue
 		}
