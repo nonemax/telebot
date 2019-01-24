@@ -45,11 +45,11 @@ func main() {
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hi, i'm a none_max_bot.")
 				boss.Bot.Send(msg)
 			default:
-				q := rand.Intn(len(boss.Vacab.Qustions))
+				q := rand.Intn(len(boss.Vacab.Qustions) + 1)
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf(boss.Vacab.Qustions[q], update.Message.Text))
 				boss.Bot.Send(msg)
 				go func() {
-					q = rand.Intn(len(boss.Vacab.Unswers))
+					q = rand.Intn(len(boss.Vacab.Unswers) + 1)
 					time.Sleep(5 * time.Second)
 					msg = tgbotapi.NewMessage(update.Message.Chat.ID, boss.Vacab.Unswers[q])
 					boss.Bot.Send(msg)
@@ -76,10 +76,10 @@ func newBoss(token string) (Boss, error) {
 
 func getQustions() []string {
 	return []string{
-		0: `Это что???`,
-		1: `И?`,
-		2: `Меня не интересует это твое %s, где результат?`,
-		3: `Что значит "%s?!"`,
+		0: `т.е. твой результат это %s?!`,
+		1: `"%s", серьезно?`,
+		2: `Меня не интересует это твое "%s", где результат?`,
+		3: `Что значит "%s"?!`,
 	}
 }
 
@@ -89,5 +89,6 @@ func getUnswers() []string {
 		1: `Мы это уже обсуждали!`,
 		2: `Не хочу ничего слышать!`,
 		3: `Ты скоро доиграешься`,
+		4: `Я жду!`,
 	}
 }
