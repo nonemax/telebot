@@ -17,7 +17,7 @@ func main() {
 	//Устанавливаем время обновления
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
-
+	log.Println("I`m ready")
 	//Получаем обновления от бота
 	updates := bot.GetUpdatesChan(u)
 
